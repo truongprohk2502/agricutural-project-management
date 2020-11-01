@@ -31,7 +31,7 @@ export class AuthService {
         const { email, password } = signInUserDto
         const user = await this.userService.findByLocalEmail(email)
         if (user && await bcrypt.compare(password, user.local.password)) {
-            const { fullName, email, phone, address, role } = user
+            const { fullName, phone, address, role } = user
             return {
                 token: await this.generateToken({ email, type: 'local' }),
                 fullName, email, phone, address, role

@@ -1,13 +1,10 @@
 import * as mongoose from 'mongoose'
-import { config } from 'dotenv';
-
-config()
 
 export const UserSchema = new mongoose.Schema({
     fullName: { type: String, trim: true },
     phone: { type: String, default: null, trim: true },
     address: { type: String, default: null, trim: true },
-    role: { type: String, default: 'user' },
+    role: { type: String, default: 'USER' },
     local: {
         email: { type: String, trim: true },
         password: { type: String, trim: true },
