@@ -1,4 +1,5 @@
-import { Body, Controller, Get, ParseIntPipe, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, ParseIntPipe, Post, Query, UploadedFiles, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { JwtPayload } from 'src/decorators/jwt-payload.decorator';
 import { CreateProjectDto } from 'src/dto/create-project.dto';
@@ -23,5 +24,11 @@ export class ProjectController {
         @Query('size', ParseIntPipe) size: number,
     ) {
         return this.projectService.getList(page, size)
+    }
+
+    @Post('uploadImages')
+    @UseInterceptors(FilesInterceptor('files'))
+    uploadFile(@UploadedFiles() files, @Body('projectId') projectId: string) {
+        return this.projectService.uploadFiles(files, projectId)
     }
 }

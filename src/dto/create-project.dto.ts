@@ -6,7 +6,7 @@ export class CreateProjectDto {
 
     @IsString()
     description: string;
-    
+
     @IsNumber()
     minimalScale: number;
 
