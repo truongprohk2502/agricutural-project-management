@@ -1,4 +1,4 @@
-import { Body, Controller, Get, ParseIntPipe, Post, Query, UploadedFiles, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UploadedFiles, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { JwtPayload } from 'src/decorators/jwt-payload.decorator';
@@ -19,11 +19,16 @@ export class ProjectController {
     }
 
     @Get('list')
-    async getProducts(
+    async getProjectsList(
         @Query('page', ParseIntPipe) page: number,
         @Query('size', ParseIntPipe) size: number,
     ) {
         return this.projectService.getList(page, size)
+    }
+
+    @Get('detail/:id')
+    async getDetailProject(@Param('id') id: string) {
+        return this.projectService.getDetail(id)
     }
 
     @Post('uploadImages')

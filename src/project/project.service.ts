@@ -54,4 +54,18 @@ export class ProjectService {
         user.save()
         return { images: filesArr }
     }
+
+    async findById(id: string) {
+        return this.projectModel.findById(id)
+    }
+
+    async getDetail(projectId: string) {
+        return this.projectModel.findById(projectId).populate({ path: 'phases', populate: { path: 'tasks' } })
+    }
+
+    async addPhase(phase: any, projectId: string) {
+        const project = await this.findById(projectId)
+        project.phases.push(phase)
+        project.save()
+    }
 }

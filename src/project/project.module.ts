@@ -13,6 +13,7 @@ import { ProjectService } from './project.service';
     UsersModule
   ],
   controllers: [ProjectController],
-  providers: [ProjectService]
+  providers: [ProjectService],
+  exports: [ProjectService]
 })
 export class ProjectModule { }
