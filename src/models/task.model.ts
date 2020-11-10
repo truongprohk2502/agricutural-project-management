@@ -11,6 +11,8 @@ export const TaskSchema = new mongoose.Schema({
     planEndDate: Number,
     estimatedTime: Number,
     estimatedTimeUnit: String,
+    workerNum: Number,
+    workerUnitFee: Number,
     measurements: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Measurement' }],
     materials: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Material' }],
     createdAt: { type: Number, default: Date.now },

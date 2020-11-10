@@ -13,14 +13,12 @@ export class PhaseService {
     ) { }
 
     async create(createPhaseDto: CreatePhaseDto) {
-        const { projectId, name, estimatedTime, estimatedTimeUnit } = createPhaseDto
+        const { projectId, ...props } = createPhaseDto
         const findProject = await this.projectService.findById(projectId)
         if (findProject) {
             const createPhase = new this.phaseModel({
                 project: findProject,
-                name,
-                estimatedTime,
-                estimatedTimeUnit,
+                ...props
             })
             const documentPhase = await createPhase.save()
             const { project, ...result } = documentPhase.toObject()

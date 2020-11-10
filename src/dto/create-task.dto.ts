@@ -15,4 +15,10 @@ export class CreateTaskDto {
 
     @IsString()
     estimatedTimeUnit: string;
+
+    @IsNumber()
+    workerNum: number;
+
+    @IsNumber()
+    workerUnitFee: number;
 }

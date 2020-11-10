@@ -13,15 +13,12 @@ export class TaskService {
     ) { }
 
     async create(createTaskDto: CreateTaskDto) {
-        const { phaseId, name, description, estimatedTime, estimatedTimeUnit } = createTaskDto
+        const { phaseId, ...props } = createTaskDto
         const findPhase = await this.phaseService.findById(phaseId)
         if (findPhase) {
             const createTask = new this.taskModel({
                 phase: findPhase,
-                name,
-                description,
-                estimatedTime,
-                estimatedTimeUnit,
+                ...props
             })
             const documentTask = await createTask.save()
             const { phase, ...result } = documentTask.toObject()
@@ -30,5 +27,21 @@ export class TaskService {
         } else {
             throw new NotFoundException()
         }
+    }
+
+    async findById(id: string) {
+        return this.taskModel.findById(id)
+    }
+
+    async addMaterial(material: any, taskId: string) {
+        const task = await this.findById(taskId)
+        task.materials.push(material)
+        task.save()
+    }
+
+    async addMeasurement(measurement: any, taskId: string) {
+        const task = await this.findById(taskId)
+        task.measurements.push(measurement)
+        task.save()
     }
 }

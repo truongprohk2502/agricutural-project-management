@@ -20,24 +20,16 @@ export class ProjectService {
     async createSample(createProjectDto: CreateProjectDto, payload: any) {
         const { email, type } = payload
         let account = type === 'local' ? await this.usersService.findByLocalEmail(email) : this.usersService.findOneByGmail(email)
-        const { name, description, minimalScale, standardUnit, estimatedTime, estimatedTimeUnit, estimatedQuantity, unitPrice } = createProjectDto
         const project = new this.projectModel({
             author: account,
-            name,
-            description,
-            minimalScale,
-            standardUnit,
-            estimatedTime,
-            estimatedTimeUnit,
-            estimatedQuantity,
-            unitPrice,
+            ...createProjectDto
         })
         project.save()
         return project
     }
 
-    async getList(page: number, size: number) {
-        return this.projectModel.find({ isActive: true }, { author: 0 }, { skip: page * size, limit: size })
+    async getList(page: number, size: number, isActive: boolean) {
+        return this.projectModel.find({ isActive }, { author: 0 }, { skip: page * size, limit: size })
     }
 
     async uploadFiles(files: [any], projectId: string) {
@@ -60,7 +52,16 @@ export class ProjectService {
     }
 
     async getDetail(projectId: string) {
-        return this.projectModel.findById(projectId).populate({ path: 'phases', populate: { path: 'tasks' } })
+        return this.projectModel.findById(projectId).populate({
+            path: 'phases',
+            populate: {
+                path: 'tasks',
+                populate: [
+                    { path: 'materials' },
+                    { path: 'measurements' }
+                ]
+            }
+        })
     }
 
     async addPhase(phase: any, projectId: string) {

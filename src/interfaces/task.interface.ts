@@ -11,6 +11,8 @@ export interface Task extends Document {
     planEndDate: number,
     estimatedTime: number,
     estimatedTimeUnit: string,
+    workerNum: number,
+    workerUnitFee: number,
     measurements: [Measurement],
     materials: [Material],
     createdAt: number,

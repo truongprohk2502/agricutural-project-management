@@ -13,6 +13,7 @@ import { PhaseModule } from 'src/phase/phase.module';
     PhaseModule
   ],
   providers: [TaskService],
-  controllers: [TaskController]
+  controllers: [TaskController],
+  exports: [TaskService]
 })
 export class TaskModule {}

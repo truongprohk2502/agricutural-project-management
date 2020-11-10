@@ -22,5 +22,5 @@ export const ProjectSchema = new mongoose.Schema({
     createdAt: { type: Number, default: Date.now },
     updatedAt: { type: Number, default: null },
     deletedAt: { type: Number, default: null },
-    isActive: { type: Boolean, default: true },
+    isActive: { type: Boolean, default: false },
 })
