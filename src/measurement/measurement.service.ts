@@ -4,6 +4,7 @@ import { Measurement } from 'src/interfaces/measurement.interface';
 import { Model } from 'mongoose';
 import { TaskService } from 'src/task/task.service';
 import { CreateMeasurementDto } from 'src/dto/create-measurement.dto';
+import { UpdateMeasurementDto } from 'src/dto/update-measurement.dto';
 
 @Injectable()
 export class MeasurementService {
@@ -27,5 +28,10 @@ export class MeasurementService {
         } else {
             throw new NotFoundException()
         }
+    }
+
+    async update(updateMeasurementDto: UpdateMeasurementDto) {
+        const { _id, ...data } = updateMeasurementDto
+        return this.measurementModel.updateOne({ _id }, { ...data, updatedAt: Date.now() })
     }
 }

@@ -4,6 +4,7 @@ import { CreatePhaseDto } from 'src/dto/create-phase.dto';
 import { Phase } from 'src/interfaces/phase.interface';
 import { Model } from 'mongoose';
 import { ProjectService } from 'src/project/project.service';
+import { UpdatePhaseDto } from 'src/dto/update-phase.dto';
 
 @Injectable()
 export class PhaseService {
@@ -37,5 +38,10 @@ export class PhaseService {
         const phase = await this.findById(phaseId)
         phase.tasks.push(task)
         phase.save()
+    }
+
+    async update(updatePhaseDto: UpdatePhaseDto) {
+        const { _id, ...data } = updatePhaseDto
+        return this.phaseModel.updateOne({ _id }, { ...data, updatedAt: Date.now() })
     }
 }

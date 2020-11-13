@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UploadedFiles, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Query, UploadedFiles, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { JwtPayload } from 'src/decorators/jwt-payload.decorator';
 import { CreateProjectDto } from 'src/dto/create-project.dto';
+import { UpdateProjectDto } from 'src/dto/update-project.dto';
 import { ProjectService } from './project.service';
 
 @Controller('project')
@@ -34,7 +35,12 @@ export class ProjectController {
 
     @Post('uploadImages')
     @UseInterceptors(FilesInterceptor('files'))
-    uploadFile(@UploadedFiles() files, @Body('projectId') projectId: string) {
+    async uploadFile(@UploadedFiles() files, @Body('projectId') projectId: string) {
         return this.projectService.uploadFiles(files, projectId)
+    }
+
+    @Put('update')
+    async updateProject(@Body(ValidationPipe) updateProjectDto: UpdateProjectDto) {
+        return this.projectService.update(updateProjectDto)
     }
 }

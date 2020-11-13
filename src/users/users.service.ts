@@ -51,6 +51,10 @@ export class UsersService {
         return this.userModel.findOne({ 'local.email': email })
     }
 
+    async findByGoogleEmail(email: String) {
+        return this.userModel.findOne({ 'google.email': email })
+    }
+
     async findOneByGmail(id: String) {
         return this.userModel.findOne({ 'google.uid': id })
     }

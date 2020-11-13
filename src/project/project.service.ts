@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateProjectDto } from 'src/dto/create-project.dto';
 import { Model } from 'mongoose';
@@ -7,6 +7,7 @@ import { UsersService } from 'src/users/users.service';
 import { uuid } from 'uuidv4';
 import * as fs from 'fs';
 import { config } from 'dotenv';
+import { UpdateProjectDto } from 'src/dto/update-project.dto';
 
 config();
 
@@ -68,5 +69,10 @@ export class ProjectService {
         const project = await this.findById(projectId)
         project.phases.push(phase)
         project.save()
+    }
+
+    async update(updateProjectDto: UpdateProjectDto) {
+        const { _id, ...data } = updateProjectDto
+        return this.projectModel.updateOne({ _id }, { ...data, updatedAt: Date.now() })
     }
 }

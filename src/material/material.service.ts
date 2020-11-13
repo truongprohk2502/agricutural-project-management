@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateMaterialDto } from 'src/dto/create-material.dto';
+import { UpdateMaterialDto } from 'src/dto/update-material.dto';
 import { Material } from 'src/interfaces/material.interface';
 import { TaskService } from 'src/task/task.service';
 
@@ -27,5 +28,10 @@ export class MaterialService {
         } else {
             throw new NotFoundException()
         }
+    }
+
+    async update(updateMaterialDto: UpdateMaterialDto) {
+        const { _id, ...data } = updateMaterialDto
+        return this.materialModel.updateOne({ _id }, { ...data, updatedAt: Date.now() })
     }
 }
