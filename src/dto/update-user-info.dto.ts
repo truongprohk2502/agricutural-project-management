@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
 import { IsPhone } from 'src/validators/phone.validator';
 
 export class UpdateUserInfoDto {
@@ -10,4 +10,10 @@ export class UpdateUserInfoDto {
 
     @IsString()
     address: string;
+
+    @IsNumber()
+    dob : number
+
+    @IsBoolean()
+    gender : boolean
 }

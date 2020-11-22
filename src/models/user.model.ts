@@ -4,6 +4,8 @@ export const UserSchema = new mongoose.Schema({
     fullName: { type: String, trim: true },
     phone: { type: String, default: null, trim: true },
     address: { type: String, default: null, trim: true },
+    dob: Number,
+    gender: { type: Boolean, default: true },
     role: { type: String, default: 'USER' },
     local: {
         email: { type: String, trim: true },

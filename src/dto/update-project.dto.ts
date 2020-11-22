@@ -22,6 +22,10 @@ export class UpdateProjectDto {
 
     @IsOptional()
     @IsNumber()
+    estimatedCost: number;
+
+    @IsOptional()
+    @IsNumber()
     estimatedTime: number;
 
     @IsOptional()

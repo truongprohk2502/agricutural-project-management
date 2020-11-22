@@ -60,12 +60,14 @@ export class UsersService {
     }
 
     async updateInfo(updateUserInfoDto: UpdateUserInfoDto, payload: any) {
-        const { fullName, phone, address } = updateUserInfoDto
+        const { fullName, phone, address, dob, gender } = updateUserInfoDto
         const user = await this.findByLocalEmail(payload.email)
         if (user) {
             user.fullName = fullName
             user.address = address
             user.phone = phone
+            user.dob = dob
+            user.gender = gender
             user.updatedAt = new Date()
             user.save()
         } else {

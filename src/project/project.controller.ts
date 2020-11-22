@@ -23,7 +23,7 @@ export class ProjectController {
     async getProjectsList(
         @Query('page', ParseIntPipe) page: number,
         @Query('size', ParseIntPipe) size: number,
-        @Query('is_active', ParseIntPipe) isActive: boolean
+        @Query('is_active') isActive: boolean
     ) {
         return this.projectService.getList(page, size, isActive)
     }

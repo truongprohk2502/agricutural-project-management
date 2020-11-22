@@ -1,8 +1,10 @@
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, ValidationPipe } from '@nestjs/common';
+import { JwtPayload } from 'src/decorators/jwt-payload.decorator';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { SignInGoogleDto } from 'src/dto/signin-google.dto';
 import { SignInUserDto } from 'src/dto/signin-user.dto';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -21,5 +23,11 @@ export class AuthController {
     @Post('google')
     async signInWithGoogle(@Body(ValidationPipe) signInGoogleDto: SignInGoogleDto) {
         return this.authService.signInWithGmail(signInGoogleDto)
+    }
+
+    @Get('profile')
+    @UseGuards(JwtAuthGuard)
+    async getProfile(@JwtPayload() payload: any) {
+        return this.authService.getProfile(payload)
     }
 }

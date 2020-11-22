@@ -14,6 +14,9 @@ export class CreateProjectDto {
     standardUnit: string;
 
     @IsNumber()
+    estimatedCost: number;
+
+    @IsNumber()
     estimatedTime: number;
 
     @IsString()

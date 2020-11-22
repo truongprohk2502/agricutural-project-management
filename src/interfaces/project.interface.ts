@@ -12,6 +12,7 @@ export interface Project extends Document {
     investmentCost: number,
     planStartDate: number,
     planEndDate: number,
+    estimatedCost: number,
     estimatedTime: number,
     estimatedTimeUnit: string,
     estimatedQuantity: number,

@@ -4,6 +4,8 @@ export interface User extends Document {
     fullName: string,
     phone: string,
     address: string,
+    dob: number,
+    gender: boolean,
     role: string,
     local: {
         email: string,

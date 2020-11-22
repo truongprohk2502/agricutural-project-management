@@ -13,6 +13,7 @@ export const ProjectSchema = new mongoose.Schema({
     investmentCost: Number,
     planStartDate: Number,
     planEndDate: Number,
+    estimatedCost: { type: Number, default: 0 },
     estimatedTime: { type: Number, default: 0 },
     estimatedTimeUnit: { type: String, default: 'DAY' },
     estimatedQuantity: { type: Number, default: 0 },
