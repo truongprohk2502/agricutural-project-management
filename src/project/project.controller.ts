@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Query, UploadedFiles, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Query, UploadedFile, UploadedFiles, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { JwtPayload } from 'src/decorators/jwt-payload.decorator';
+import { CreateActualProjectDto } from 'src/dto/create-actual-project.dto';
 import { CreateProjectDto } from 'src/dto/create-project.dto';
 import { UpdateProjectDto } from 'src/dto/update-project.dto';
 import { ProjectService } from './project.service';
@@ -17,6 +18,20 @@ export class ProjectController {
         @JwtPayload() payload: any,
     ) {
         return this.projectService.createSample(createProjectDto, payload)
+    }
+
+    @Post('createActualProject')
+    @UseInterceptors(FileInterceptor('file'))
+    async createActualProject(
+        @Body(ValidationPipe) createProjectDto: CreateActualProjectDto,
+        @JwtPayload() payload: any,
+        @UploadedFile() file
+    ) {
+        console.log(createProjectDto)
+        console.log(file)
+
+        return 'ok'
+        return this.projectService.createActual(createProjectDto, payload)
     }
 
     @Get('list')

@@ -8,6 +8,7 @@ import { uuid } from 'uuidv4';
 import * as fs from 'fs';
 import { config } from 'dotenv';
 import { UpdateProjectDto } from 'src/dto/update-project.dto';
+import { CreateActualProjectDto } from 'src/dto/create-actual-project.dto';
 
 config();
 
@@ -27,6 +28,10 @@ export class ProjectService {
         })
         project.save()
         return project
+    }
+
+    async createActual(createProjectDto: CreateActualProjectDto, payload: any) {
+        
     }
 
     async getList(page: number, size: number, isActive: boolean) {
