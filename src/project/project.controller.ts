@@ -36,12 +36,14 @@ export class ProjectController {
         @Query('size', ParseIntPipe) size: number,
         @Query('is_active') isActive: boolean
     ) {
+        console.log(isActive)
+        console.log(typeof isActive)
         return this.projectService.getList(page, size, isActive)
     }
 
     @Get('listByUser')
-    async getListByUser(@JwtPayload() payload: any) {
-        return this.projectService.getListByUser(payload)
+    async getListByUser(@Query('type') type: string, @JwtPayload() payload: any) {
+        return this.projectService.getListByUser(type, payload)
     }
 
     @Get('detail/:id')

@@ -83,10 +83,10 @@ export class ProjectService {
         return this.projectModel.find({ isActive }, { author: 0 }, { skip: page * size, limit: size })
     }
 
-    async getListByUser(payload: any) {
+    async getListByUser(projectType: string, payload: any) {
         const { email, type } = payload
         const user = type === 'local' ? await this.usersService.findByLocalEmail(email) : await this.usersService.findOneByGmail(email)
-        return this.projectModel.find({ author: user._id })
+        return this.projectModel.find({ author: user._id, projectType })
     }
 
     async uploadFiles(files: [any], projectId: string) {
