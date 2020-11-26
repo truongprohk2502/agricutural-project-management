@@ -34,6 +34,10 @@ export class PhaseService {
         return this.phaseModel.findById(id)
     }
 
+    async findAllByProjectId(id: string) {
+        return this.phaseModel.find({ project: id })
+    }
+
     async addTask(task: any, phaseId: string) {
         const phase = await this.findById(phaseId)
         phase.tasks.push(task)

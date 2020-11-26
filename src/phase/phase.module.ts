@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PhaseSchema } from 'src/models/phase.model';
 import { ProjectModule } from 'src/project/project.module';
@@ -10,7 +10,7 @@ import { PhaseService } from './phase.service';
     MongooseModule.forFeature([
       { name: 'Phase', schema: PhaseSchema }
     ]),
-    ProjectModule
+    forwardRef(() => ProjectModule)
   ],
   controllers: [PhaseController],
   providers: [PhaseService],

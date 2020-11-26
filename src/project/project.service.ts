@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateProjectDto } from 'src/dto/create-project.dto';
 import { Model } from 'mongoose';
@@ -9,6 +9,7 @@ import * as fs from 'fs';
 import { config } from 'dotenv';
 import { UpdateProjectDto } from 'src/dto/update-project.dto';
 import { CreateActualProjectDto } from 'src/dto/create-actual-project.dto';
+import { PhaseService } from 'src/phase/phase.service';
 
 config();
 
@@ -16,10 +17,11 @@ config();
 export class ProjectService {
     constructor(
         @InjectModel('Project') private readonly projectModel: Model<Project>,
-        private readonly usersService: UsersService
+        private readonly usersService: UsersService,
+        @Inject(forwardRef(() => PhaseService)) private readonly phaseService: PhaseService
     ) { }
 
-    async createSample(createProjectDto: CreateProjectDto, payload: any) {
+    async createSample(createProjectDto: any, payload: any) {
         const { email, type } = payload
         let account = type === 'local' ? await this.usersService.findByLocalEmail(email) : this.usersService.findOneByGmail(email)
         const project = new this.projectModel({
@@ -31,11 +33,60 @@ export class ProjectService {
     }
 
     async createActual(createProjectDto: CreateActualProjectDto, payload: any) {
-        
+        const { projectId, actualScale, planStartDate, address } = createProjectDto
+        const { email, type } = payload
+        let account = type === 'local' ? await this.usersService.findByLocalEmail(email) : await this.usersService.findByGoogleEmail(email)
+        const sampleProject = await this.getDetail(projectId)
+        const scale = Number(actualScale)
+        if (sampleProject) {
+            const { minimalScale, estimatedCost, estimatedQuantity, _id, ...restProps } = sampleProject.toObject()
+            // const projectDto = {
+            //     minimalScale: scale,
+            //     planStartDate: Number(planStartDate),
+            //     address,
+            //     estimatedCost: estimatedCost * scale / minimalScale,
+            //     estimatedQuantity: estimatedQuantity * scale / minimalScale,
+            //     projectType: 'ACTUAL'
+            // }
+            // const projectCreated = await this.createSample(projectDto, payload)
+            // const phaseArr = []
+            // phases.forEach(phase => {
+            //     const taskArr = []
+            //     const {tasks, ...restPhase}=phase
+            //     tasks.forEach(task => {
+            //         const {measurements, materials, workerNum, ...restTask}=task
+            //         const taskCreated = 
+            //         const measurementArr = []
+            //         measurements.forEach(measurement => {
+
+            //         })
+            //     })
+            // })
+            const project = new this.projectModel({
+                ...restProps,
+                author: account,
+                minimalScale: scale,
+                planStartDate: Number(planStartDate),
+                address,
+                estimatedCost: estimatedCost * scale / minimalScale,
+                estimatedQuantity: estimatedQuantity * scale / minimalScale,
+                projectType: 'ACTUAL',
+                // phases
+            })
+            project.save()
+        } else {
+            return new BadRequestException()
+        }
     }
 
     async getList(page: number, size: number, isActive: boolean) {
         return this.projectModel.find({ isActive }, { author: 0 }, { skip: page * size, limit: size })
+    }
+
+    async getListByUser(payload: any) {
+        const { email, type } = payload
+        const user = type === 'local' ? await this.usersService.findByLocalEmail(email) : await this.usersService.findOneByGmail(email)
+        return this.projectModel.find({ author: user._id })
     }
 
     async uploadFiles(files: [any], projectId: string) {

@@ -27,10 +27,6 @@ export class ProjectController {
         @JwtPayload() payload: any,
         @UploadedFile() file
     ) {
-        console.log(createProjectDto)
-        console.log(file)
-
-        return 'ok'
         return this.projectService.createActual(createProjectDto, payload)
     }
 
@@ -41,6 +37,11 @@ export class ProjectController {
         @Query('is_active') isActive: boolean
     ) {
         return this.projectService.getList(page, size, isActive)
+    }
+
+    @Get('listByUser')
+    async getListByUser(@JwtPayload() payload: any) {
+        return this.projectService.getListByUser(payload)
     }
 
     @Get('detail/:id')
