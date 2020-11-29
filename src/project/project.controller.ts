@@ -40,8 +40,8 @@ export class ProjectController {
     }
 
     @Get('listByUser')
-    async getListByUser(@Query('type') type: string, @JwtPayload() payload: any) {
-        return this.projectService.getListByUser(type, payload)
+    async getListByUser(@Query('type') type: string, @Query('is_finished', ParseBoolPipe) isFinished: boolean, @JwtPayload() payload: any) {
+        return this.projectService.getListByUser(type, isFinished, payload)
     }
 
     @Get('detail/:id')

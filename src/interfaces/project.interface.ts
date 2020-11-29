@@ -22,5 +22,6 @@ export interface Project extends Document {
     createdAt: number,
     updatedAt: number,
     deletedAt: number,
+    isFinished: boolean,
     isActive: boolean,
 }

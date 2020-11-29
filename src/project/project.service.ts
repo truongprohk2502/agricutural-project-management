@@ -101,13 +101,13 @@ export class ProjectService {
     );
   }
 
-  async getListByUser(projectType: string, payload: any) {
+  async getListByUser(projectType: string, isFinished: boolean, payload: any) {
     const { email, type } = payload;
     const user =
       type === 'local'
         ? await this.usersService.findByLocalEmail(email)
         : await this.usersService.findOneByGmail(email);
-    return this.projectModel.find({ author: user._id, projectType });
+    return this.projectModel.find({ author: user._id, projectType, isFinished });
   }
 
   async uploadFiles(files: [any], projectId: string) {
