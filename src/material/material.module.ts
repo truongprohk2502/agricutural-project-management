@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MaterialSchema } from 'src/models/material.model';
 import { TaskModule } from 'src/task/task.module';
@@ -10,9 +10,10 @@ import { MaterialService } from './material.service';
     MongooseModule.forFeature([
       { name: 'Material', schema: MaterialSchema }
     ]),
-    TaskModule
+    forwardRef(() => TaskModule),
   ],
   controllers: [MaterialController],
-  providers: [MaterialService]
+  providers: [MaterialService],
+  exports: [MaterialService]
 })
 export class MaterialModule {}

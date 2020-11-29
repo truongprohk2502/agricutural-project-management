@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Query, UploadedFile, UploadedFiles, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, UploadedFile, UploadedFiles, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { JwtPayload } from 'src/decorators/jwt-payload.decorator';
@@ -27,17 +27,15 @@ export class ProjectController {
         @JwtPayload() payload: any,
         @UploadedFile() file
     ) {
-        return this.projectService.createActual(createProjectDto, payload)
+        return this.projectService.createActual(createProjectDto, file, payload)
     }
 
     @Get('list')
     async getProjectsList(
         @Query('page', ParseIntPipe) page: number,
         @Query('size', ParseIntPipe) size: number,
-        @Query('is_active') isActive: boolean
+        @Query('is_active', ParseBoolPipe) isActive: boolean
     ) {
-        console.log(isActive)
-        console.log(typeof isActive)
         return this.projectService.getList(page, size, isActive)
     }
 

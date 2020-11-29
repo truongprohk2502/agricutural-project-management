@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MeasurementSchema } from 'src/models/measurement.model';
 import { TaskModule } from 'src/task/task.module';
@@ -10,9 +10,10 @@ import { MeasurementService } from './measurement.service';
     MongooseModule.forFeature([
       { name: 'Measurement', schema: MeasurementSchema }
     ]),
-    TaskModule
+    forwardRef(() => TaskModule),
   ],
   controllers: [MeasurementController],
-  providers: [MeasurementService]
+  providers: [MeasurementService],
+  exports: [MeasurementService]
 })
 export class MeasurementModule {}
