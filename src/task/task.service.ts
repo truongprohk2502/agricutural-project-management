@@ -58,15 +58,15 @@ export class TaskService {
         description,
         estimatedTime,
         estimatedTimeUnit,
-        workerNum: workerNum * rate,
+        workerNum: Math.round(workerNum * rate),
         workerUnitFee,
       });
-      this.measurementService.cloneSampleMeasurements(
+      await this.measurementService.cloneSampleMeasurements(
         taskCreated._id,
         tasks[i]._id,
         rate,
       );
-      this.materialService.cloneSampleMaterials(
+      await this.materialService.cloneSampleMaterials(
         taskCreated._id,
         tasks[i]._id,
         rate,

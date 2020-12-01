@@ -44,7 +44,7 @@ export class MaterialService {
     const materials = await this.findAllByTaskId(sampleTaskId);
     for (let i = 0; i < materials.length; i++) {
       const { name, quantity, unitPrice } = materials[i];
-      this.create({
+      await this.create({
         taskId,
         name,
         quantity: Math.ceil(quantity * rate),

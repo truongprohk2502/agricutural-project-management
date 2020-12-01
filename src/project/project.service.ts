@@ -80,8 +80,8 @@ export class ProjectService {
         minimalScale: scale,
         planStartDate: Number(planStartDate),
         address,
-        estimatedCost: estimatedCost * rate,
-        estimatedQuantity: estimatedQuantity * rate,
+        estimatedCost: Math.round(estimatedCost * rate),
+        estimatedQuantity: Math.round(estimatedQuantity * rate),
         projectType: 'ACTUAL',
         images: [...images, imgLink],
       });

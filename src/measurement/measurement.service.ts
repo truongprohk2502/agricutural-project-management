@@ -40,7 +40,7 @@ export class MeasurementService {
     const measurements = await this.findAllByTaskId(sampleTaskId);
     for (let i = 0; i < measurements.length; i++) {
       const { standardNum, realityNum, name, unit } = measurements[i];
-      this.create({ taskId, name, unit, standardNum, realityNum });
+      await this.create({ taskId, name, unit, standardNum, realityNum });
     }
   }
 

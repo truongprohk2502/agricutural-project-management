@@ -52,7 +52,7 @@ export class PhaseService {
         estimatedTime,
         estimatedTimeUnit,
       });
-      this.taskService.cloneSampleTasks(phaseCreated._id, phases[i]._id, rate);
+      await this.taskService.cloneSampleTasks(phaseCreated._id, phases[i]._id, rate);
     }
   }
 
