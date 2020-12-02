@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
 
 export class CreateTaskDto {
     @IsString()
@@ -24,7 +24,4 @@ export class CreateTaskDto {
 
     @IsBoolean()
     isDailyTask: boolean;
-
-    // @IsArray()
-    // images: object;
 }
