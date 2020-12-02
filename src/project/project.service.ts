@@ -111,8 +111,8 @@ export class ProjectService {
   }
 
   async uploadFiles(files: [any], projectId: string) {
-    const user = await this.projectModel.findById(projectId);
-    let filesArr = [...user.images];
+    const project = await this.projectModel.findById(projectId);
+    let filesArr = [...project.images];
     files.forEach(file => {
       const imgName = uuid();
       const imgExtension = file.originalname.split('.')[1];
@@ -123,8 +123,8 @@ export class ProjectService {
         file.buffer,
       );
     });
-    user.images = filesArr;
-    user.save();
+    project.images = filesArr;
+    project.save();
     return { images: filesArr };
   }
 

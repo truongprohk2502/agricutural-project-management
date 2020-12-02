@@ -12,6 +12,8 @@ import { CreateTaskDto } from 'src/dto/create-task.dto';
 import { UpdateTaskDto } from 'src/dto/update-task.dto';
 import { MeasurementService } from 'src/measurement/measurement.service';
 import { MaterialService } from 'src/material/material.service';
+import { uuid } from 'uuidv4';
+import * as fs from 'fs';
 
 @Injectable()
 export class TaskService {
@@ -51,10 +53,11 @@ export class TaskService {
         estimatedTimeUnit,
         workerNum,
         workerUnitFee,
-        isDailyTask
+        isDailyTask,
+        images
       } = tasks[i];
-      
-      const taskCreated = await this.create({
+
+      const taskCreated = this.taskModel({
         phaseId,
         name,
         description,
@@ -62,8 +65,10 @@ export class TaskService {
         estimatedTimeUnit,
         workerNum: Math.round(workerNum * rate),
         workerUnitFee,
-        isDailyTask
+        isDailyTask,
+        images
       });
+      await taskCreated.save()
       await this.measurementService.cloneSampleMeasurements(
         taskCreated._id,
         tasks[i]._id,
@@ -76,7 +81,7 @@ export class TaskService {
       );
     }
   }
-  
+
   async findById(id: string) {
     return this.taskModel.findById(id);
   }
@@ -103,5 +108,23 @@ export class TaskService {
       { _id },
       { ...data, updatedAt: Date.now() },
     );
+  }
+
+  async uploadFiles(files: [any], taskId: string) {
+    const task = await this.taskModel.findById(taskId);
+    let filesArr = [...task.images];
+    files.forEach(file => {
+      const imgName = uuid();
+      const imgExtension = file.originalname.split('.')[1];
+      const imgLink = `${process.env.BASE_URL}/images/${imgName}.${imgExtension}`;
+      filesArr.push(imgLink);
+      fs.writeFileSync(
+        `./public/images/${imgName}.${imgExtension}`,
+        file.buffer,
+      );
+    });
+    task.images = filesArr;
+    task.save();
+    return { images: filesArr };
   }
 }
