@@ -9,6 +9,8 @@ export interface Project extends Document {
     images: [string],
     minimalScale: number,
     standardUnit: string,
+    address: string,
+    standardGap: [string],
     investmentCost: number,
     planStartDate: number,
     planEndDate: number,

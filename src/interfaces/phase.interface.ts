@@ -5,6 +5,7 @@ import { Task } from './task.interface';
 export interface Phase extends Document {
     project: Project,
     name: string,
+    description: string,
     planStartDate: number,
     planEndDate: number,
     estimatedTime: number,

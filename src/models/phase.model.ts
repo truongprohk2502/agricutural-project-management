@@ -6,6 +6,7 @@ export const PhaseSchema = new mongoose.Schema({
         ref: 'Project'
     },
     name: { type: String, trim: true },
+    description: { type: String, trim: true },
     planStartDate: Number,
     planEndDate: Number,
     estimatedTime: Number,

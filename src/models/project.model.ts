@@ -11,6 +11,7 @@ export const ProjectSchema = new mongoose.Schema({
     minimalScale: { type: Number, default: null },
     standardUnit: { type: String, default: null, trim: true },
     address: { type: String, trim: true },
+    standardGap: { type: [String], trim: true },
     investmentCost: Number,
     planStartDate: Number,
     planEndDate: Number,

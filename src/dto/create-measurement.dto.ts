@@ -7,6 +7,9 @@ export class CreateMeasurementDto {
     @IsString()
     name: string;
 
+    @IsString()
+    guide: string;
+
     @IsNumber()
     standardNum: number;
 

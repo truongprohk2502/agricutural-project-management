@@ -7,6 +7,9 @@ export class CreatePhaseDto {
     @IsString()
     name: string;
 
+    @IsString()
+    description: string;
+
     @IsNumber()
     estimatedTime: number;
 

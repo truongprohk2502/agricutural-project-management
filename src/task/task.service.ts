@@ -51,7 +51,9 @@ export class TaskService {
         estimatedTimeUnit,
         workerNum,
         workerUnitFee,
+        isDailyTask
       } = tasks[i];
+      
       const taskCreated = await this.create({
         phaseId,
         name,
@@ -60,6 +62,7 @@ export class TaskService {
         estimatedTimeUnit,
         workerNum: Math.round(workerNum * rate),
         workerUnitFee,
+        isDailyTask
       });
       await this.measurementService.cloneSampleMeasurements(
         taskCreated._id,
@@ -73,7 +76,7 @@ export class TaskService {
       );
     }
   }
-
+  
   async findById(id: string) {
     return this.taskModel.findById(id);
   }

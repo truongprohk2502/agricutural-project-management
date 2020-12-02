@@ -4,6 +4,7 @@ import { Task } from './task.interface';
 export interface Measurement extends Document {
     task: Task,
     name: string,
+    guide: string,
     standardNum: number,
     realityNum: number,
     unit: string,

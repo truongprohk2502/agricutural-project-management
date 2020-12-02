@@ -6,6 +6,7 @@ export const MeasurementSchema = new mongoose.Schema({
         ref: 'Task'
     },
     name: { type: String, trim: true },
+    guide: { type: String, trim: true },
     standardNum: { type: Number, default: 0 },
     realityNum: { type: Number, default: 0 },
     unit: { type: String, trim: true },

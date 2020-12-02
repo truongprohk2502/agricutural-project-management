@@ -45,12 +45,13 @@ export class PhaseService {
   ) {
     const phases = await this.findAllByProjectId(sampleProjectId);
     for (let i = 0; i < phases.length; i++) {
-      const { name, estimatedTime, estimatedTimeUnit } = phases[i];
+      const { name, estimatedTime, estimatedTimeUnit, description } = phases[i];
       const phaseCreated = await this.create({
         projectId,
         name,
         estimatedTime,
         estimatedTimeUnit,
+        description
       });
       await this.taskService.cloneSampleTasks(phaseCreated._id, phases[i]._id, rate);
     }

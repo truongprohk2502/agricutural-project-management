@@ -1,15 +1,18 @@
-import { IsString } from 'class-validator';
+import { IsArray, IsNumber, IsString } from 'class-validator';
 
 export class CreateActualProjectDto {
     @IsString()
     projectId: string;
 
-    @IsString()
-    actualScale: string;
+    @IsNumber()
+    actualScale: number;
 
-    @IsString()
-    planStartDate: string;
+    @IsNumber()
+    planStartDate: number;
 
     @IsString()
     address: string;
+
+    @IsArray()
+    images: [object];
 }
