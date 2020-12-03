@@ -5,6 +5,7 @@ export interface Material extends Document {
     task: Task,
     name: string,
     quantity: number,
+    unit: string,
     unitPrice: number,
     createdAt: number,
     updatedAt: number,

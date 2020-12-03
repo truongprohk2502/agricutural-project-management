@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateTaskDto {
     @IsString()
@@ -11,6 +11,10 @@ export class UpdateTaskDto {
     @IsOptional()
     @IsString()
     description: string;
+
+    @IsOptional()
+    @IsString()
+    note: string;
 
     @IsOptional()
     @IsNumber()
@@ -27,4 +31,8 @@ export class UpdateTaskDto {
     @IsOptional()
     @IsNumber()
     workerUnitFee: number;
+
+    @IsOptional()
+    @IsBoolean()
+    status: boolean;
 }

@@ -9,6 +9,10 @@ export class UpdateMeasurementDto {
     name: string;
 
     @IsOptional()
+    @IsString()
+    guide: string;
+
+    @IsOptional()
     @IsNumber()
     standardNum: number;
 

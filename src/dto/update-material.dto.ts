@@ -15,4 +15,12 @@ export class UpdateMaterialDto {
     @IsOptional()
     @IsNumber()
     unitPrice: number;
+
+    @IsOptional()
+    @IsNumber()
+    actualQuantity: number;
+
+    @IsOptional()
+    @IsNumber()
+    actualUnitPrice: number;
 }

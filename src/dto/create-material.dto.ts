@@ -10,6 +10,9 @@ export class CreateMaterialDto {
     @IsNumber()
     quantity: number;
 
+    @IsString()
+    unit: string;
+
     @IsNumber()
     unitPrice: number;
 }
