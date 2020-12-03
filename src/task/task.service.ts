@@ -26,7 +26,7 @@ export class TaskService {
     private readonly materialService: MaterialService,
   ) {}
 
-  async create(createTaskDto: CreateTaskDto) {
+  async create(createTaskDto: any) {
     const { phaseId, ...props } = createTaskDto;
     const findPhase = await this.phaseService.findById(phaseId);
     if (findPhase) {
@@ -54,10 +54,9 @@ export class TaskService {
         workerNum,
         workerUnitFee,
         isDailyTask,
-        images
+        images,
       } = tasks[i];
-
-      const taskCreated = this.taskModel({
+      const taskCreated = await this.create({
         phaseId,
         name,
         description,
@@ -66,9 +65,8 @@ export class TaskService {
         workerNum: Math.round(workerNum * rate),
         workerUnitFee,
         isDailyTask,
-        images
+        images,
       });
-      await taskCreated.save()
       await this.measurementService.cloneSampleMeasurements(
         taskCreated._id,
         tasks[i]._id,

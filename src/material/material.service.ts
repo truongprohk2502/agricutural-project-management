@@ -19,7 +19,7 @@ export class MaterialService {
     private readonly taskService: TaskService,
   ) {}
 
-  async create(createMaterialDto: CreateMaterialDto) {
+  async create(createMaterialDto: any) {
     const { taskId, ...props } = createMaterialDto;
     const findTask = await this.taskService.findById(taskId);
     if (findTask) {
@@ -44,15 +44,14 @@ export class MaterialService {
     const materials = await this.findAllByTaskId(sampleTaskId);
     for (let i = 0; i < materials.length; i++) {
       const { name, quantity, unitPrice } = materials[i];
-      const material = this.materialModel({
+      await this.create({
         taskId,
         name,
         quantity: Math.ceil(quantity * rate),
         unitPrice,
         actualQuantity: Math.ceil(quantity * rate),
-        actualUnitPrice: unitPrice
-      })
-      await material.save()
+        actualUnitPrice: unitPrice,
+      });
     }
   }
 
