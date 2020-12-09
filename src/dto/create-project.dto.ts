@@ -1,4 +1,4 @@
-import { IsArray, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateProjectDto {
     @IsString()
@@ -14,6 +14,7 @@ export class CreateProjectDto {
     standardUnit: string;
 
     @IsArray()
+    @IsOptional()
     standardGap: [string];
 
     @IsNumber()

@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, UploadedFile, UploadedFiles, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, UploadedFile, UploadedFiles, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { create } from 'domain';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { JwtPayload } from 'src/decorators/jwt-payload.decorator';
 import { CreateActualProjectDto } from 'src/dto/create-actual-project.dto';
@@ -33,10 +34,9 @@ export class ProjectController {
     @Get('list')
     async getProjectsList(
         @Query('page', ParseIntPipe) page: number,
-        @Query('size', ParseIntPipe) size: number,
-        @Query('is_active', ParseBoolPipe) isActive: boolean
+        @Query('size', ParseIntPipe) size: number
     ) {
-        return this.projectService.getList(page, size, isActive)
+        return this.projectService.getList(page, size)
     }
 
     @Get('listByUser')
@@ -58,5 +58,10 @@ export class ProjectController {
     @Put('update')
     async updateProject(@Body(ValidationPipe) updateProjectDto: UpdateProjectDto) {
         return this.projectService.update(updateProjectDto)
+    }
+
+    @Delete('delete/:id')
+    async deleteProject(@Param('id') id: string) {
+        return this.projectService.delete(id)
     }
 }

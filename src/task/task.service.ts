@@ -26,6 +26,10 @@ export class TaskService {
     private readonly materialService: MaterialService,
   ) {}
 
+  async getList(phaseId: string) {
+    return this.taskModel.find({ phase: phaseId });
+  }
+
   async create(createTaskDto: any) {
     const { phaseId, ...props } = createTaskDto;
     const findPhase = await this.phaseService.findById(phaseId);
@@ -124,5 +128,9 @@ export class TaskService {
     task.images = filesArr;
     task.save();
     return { images: filesArr };
+  }
+
+  async delete(_id) {
+    return this.taskModel.deleteOne({ _id });
   }
 }

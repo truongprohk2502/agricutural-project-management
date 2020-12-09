@@ -21,6 +21,10 @@ export class PhaseService {
     private readonly taskService: TaskService,
   ) {}
 
+  async getList(projectId: string) {
+    return this.phaseModel.find({ project: projectId });
+  }
+
   async create(createPhaseDto: CreatePhaseDto) {
     const { projectId, ...props } = createPhaseDto;
     const findProject = await this.projectService.findById(projectId);
@@ -51,9 +55,13 @@ export class PhaseService {
         name,
         estimatedTime,
         estimatedTimeUnit,
-        description
+        description,
       });
-      await this.taskService.cloneSampleTasks(phaseCreated._id, phases[i]._id, rate);
+      await this.taskService.cloneSampleTasks(
+        phaseCreated._id,
+        phases[i]._id,
+        rate,
+      );
     }
   }
 
@@ -77,5 +85,9 @@ export class PhaseService {
       { _id },
       { ...data, updatedAt: Date.now() },
     );
+  }
+
+  async delete(_id) {
+    return this.phaseModel.deleteOne({ _id });
   }
 }

@@ -19,6 +19,10 @@ export class MaterialService {
     private readonly taskService: TaskService,
   ) {}
 
+  async getList(taskId: string) {
+    return this.materialModel.find({ task: taskId });
+  }
+
   async create(createMaterialDto: any) {
     const { taskId, ...props } = createMaterialDto;
     const findTask = await this.taskService.findById(taskId);
@@ -66,5 +70,9 @@ export class MaterialService {
       { _id },
       { ...data, updatedAt: Date.now() },
     );
+  }
+
+  async delete(_id) {
+    return this.materialModel.deleteOne({ _id });
   }
 }

@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateProjectDto {
     @IsString()
@@ -19,6 +19,10 @@ export class UpdateProjectDto {
     @IsOptional()
     @IsString()
     standardUnit: string;
+
+    @IsArray()
+    @IsOptional()
+    standardGap: [string];
 
     @IsOptional()
     @IsNumber()

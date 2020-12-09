@@ -15,6 +15,10 @@ export class MeasurementService {
     private readonly taskService: TaskService,
   ) {}
 
+  async getList(taskId: string) {
+    return this.measurementModel.find({ task: taskId });
+  }
+
   async create(createMeasurementDto: CreateMeasurementDto) {
     const { taskId, ...props } = createMeasurementDto;
     const findTask = await this.taskService.findById(taskId);
@@ -54,5 +58,9 @@ export class MeasurementService {
       { _id },
       { ...data, updatedAt: Date.now() },
     );
+  }
+
+  async delete(_id) {
+    return this.measurementModel.deleteOne({ _id });
   }
 }

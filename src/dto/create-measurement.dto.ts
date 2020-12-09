@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateMeasurementDto {
     @IsString()
@@ -14,6 +14,7 @@ export class CreateMeasurementDto {
     standardNum: number;
 
     @IsNumber()
+    @IsOptional()
     realityNum: number;
 
     @IsString()

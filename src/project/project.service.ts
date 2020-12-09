@@ -93,9 +93,9 @@ export class ProjectService {
     }
   }
 
-  async getList(page: number, size: number, isActive: boolean) {
+  async getList(page: number, size: number) {
     return this.projectModel.find(
-      { isActive, projectType: 'SAMPLE' },
+      { projectType: 'SAMPLE' },
       { author: 0 },
       { skip: page * size, limit: size },
     );
@@ -107,7 +107,11 @@ export class ProjectService {
       type === 'local'
         ? await this.usersService.findByLocalEmail(email)
         : await this.usersService.findOneByGmail(email);
-    return this.projectModel.find({ author: user._id, projectType, isFinished });
+    return this.projectModel.find({
+      author: user._id,
+      projectType,
+      isFinished,
+    });
   }
 
   async uploadFiles(files: [any], projectId: string) {
@@ -154,5 +158,9 @@ export class ProjectService {
       { _id },
       { ...data, updatedAt: Date.now() },
     );
+  }
+
+  async delete(_id) {
+    return this.projectModel.deleteOne({ _id });
   }
 }
