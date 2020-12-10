@@ -74,4 +74,8 @@ export class UsersService {
             throw new NotFoundException()
         }
     }
+
+    async getList() {
+        return this.userModel.find()
+    }
 }
