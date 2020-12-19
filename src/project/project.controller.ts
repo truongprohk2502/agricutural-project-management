@@ -9,10 +9,10 @@ import { UpdateProjectDto } from 'src/dto/update-project.dto';
 import { ProjectService } from './project.service';
 
 @Controller('project')
-@UseGuards(new JwtAuthGuard())
 export class ProjectController {
     constructor(private readonly projectService: ProjectService) { }
 
+    @UseGuards(JwtAuthGuard)
     @Post('createSampleProject')
     async createSampleProject(
         @Body(ValidationPipe) createProjectDto: CreateProjectDto,
@@ -21,6 +21,7 @@ export class ProjectController {
         return this.projectService.createSample(createProjectDto, payload)
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('createActualProject')
     @UseInterceptors(FileInterceptor('file'))
     async createActualProject(
@@ -39,32 +40,38 @@ export class ProjectController {
         return this.projectService.getList(page, size)
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('listByUser')
     async getListByUser(@Query('type') type: string, @Query('is_finished', ParseBoolPipe) isFinished: boolean, @JwtPayload() payload: any) {
         return this.projectService.getListByUser(type, isFinished, payload)
     }
     
+    @UseGuards(JwtAuthGuard)
     @Get('listByUserId/:id')
     async getListByUserId(@Param('id') id: string) {
         return this.projectService.getListByUserId(id)
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('detail/:id')
     async getDetailProject(@Param('id') id: string) {
         return this.projectService.getDetail(id)
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('uploadImages')
     @UseInterceptors(FilesInterceptor('files'))
     async uploadFile(@UploadedFiles() files, @Body('projectId') projectId: string) {
         return this.projectService.uploadFiles(files, projectId)
     }
 
+    @UseGuards(JwtAuthGuard)
     @Put('update')
     async updateProject(@Body(ValidationPipe) updateProjectDto: UpdateProjectDto) {
         return this.projectService.update(updateProjectDto)
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete('delete/:id')
     async deleteProject(@Param('id') id: string) {
         return this.projectService.delete(id)
