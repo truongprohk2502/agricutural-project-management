@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateMaterialDto {
     @IsString()
@@ -7,12 +7,19 @@ export class CreateMaterialDto {
     @IsString()
     name: string;
 
+    @IsOptional()
     @IsNumber()
     quantity: number;
 
-    @IsString()
-    unit: string;
-
+    @IsOptional()
     @IsNumber()
     unitPrice: number;
+
+    @IsOptional()
+    @IsNumber()
+    actualQuantity: number;
+
+    @IsOptional()
+    @IsNumber()
+    actualUnitPrice: number;
 }

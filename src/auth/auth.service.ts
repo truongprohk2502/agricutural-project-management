@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { SignInUserDto } from 'src/dto/signin-user.dto';
@@ -35,6 +39,7 @@ export class AuthService {
     const { email, password } = signInUserDto;
     const user = await this.userService.findByLocalEmail(email);
     if (user && (await bcrypt.compare(password, user.local.password))) {
+      if (!user.isActive) return new BadRequestException();
       const { fullName, phone, address, role } = user;
       return {
         token: await this.generateToken({ email, type: 'local' }),

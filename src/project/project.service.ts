@@ -101,6 +101,10 @@ export class ProjectService {
     );
   }
 
+  async getListByUserId(id: string) {
+    return this.projectModel.find({ author: id });
+  }
+
   async getListByUser(projectType: string, isFinished: boolean, payload: any) {
     const { email, type } = payload;
     const user =
