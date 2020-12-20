@@ -133,4 +133,8 @@ export class TaskService {
   async delete(_id) {
     return this.taskModel.deleteOne({ _id });
   }
+
+  async removeImages(images: [string], _id: string) {
+    return this.taskModel.updateOne({ _id }, { images, updatedAt: Date.now() });
+  }
 }

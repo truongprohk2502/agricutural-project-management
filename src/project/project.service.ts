@@ -93,9 +93,11 @@ export class ProjectService {
     }
   }
 
-  async getList(page: number, size: number) {
+  async getList(page: number, size: number, all: boolean) {
     return this.projectModel.find(
-      { projectType: 'SAMPLE' },
+      all
+        ? { projectType: 'SAMPLE' }
+        : { projectType: 'SAMPLE', isActive: true },
       { author: 0 },
       { skip: page * size, limit: size },
     );
@@ -166,5 +168,12 @@ export class ProjectService {
 
   async delete(_id) {
     return this.projectModel.deleteOne({ _id });
+  }
+
+  async removeImages(images: [string], _id: string) {
+    return this.projectModel.updateOne(
+      { _id },
+      { images, updatedAt: Date.now() },
+    );
   }
 }

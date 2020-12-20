@@ -40,8 +40,13 @@ export class TaskController {
     return this.taskService.uploadFiles(files, taskId);
   }
 
+  @Put('removeImage/:taskId')
+  async updateImageTask(@Body() images: [string], @Param('taskId') id: string) {
+    return this.taskService.removeImages(images, id);
+  }
+
   @Delete('delete/:id')
   async deleteTask(@Param('id') id: string) {
-      return this.taskService.delete(id)
+    return this.taskService.delete(id);
   }
 }
