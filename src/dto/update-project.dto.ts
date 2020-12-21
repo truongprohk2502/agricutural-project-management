@@ -47,4 +47,8 @@ export class UpdateProjectDto {
     @IsOptional()
     @IsBoolean()
     isActive: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    isFinished: boolean;
 }
