@@ -51,4 +51,12 @@ export class UpdateProjectDto {
     @IsOptional()
     @IsBoolean()
     isFinished: boolean;
+
+    @IsOptional()
+    @IsNumber()
+    planStartDate: number;
+
+    @IsOptional()
+    @IsString()
+    address: string;
 }

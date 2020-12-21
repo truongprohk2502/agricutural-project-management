@@ -29,7 +29,7 @@ export class TaskController {
     return this.taskService.create(createTaskDto);
   }
 
-  @Put('update')
+  @Put('task')
   async updateTask(@Body(ValidationPipe) updateTaskDto: UpdateTaskDto) {
     return this.taskService.update(updateTaskDto);
   }
